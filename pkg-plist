@@ -16,3 +16,11 @@ man/man1/pkcs11_make_hash_link.1.gz
 man/man1/pkcs11_setup.1.gz
 man/man1/pklogin_finder.1.gz
 man/man8/pam_pkcs11.8.gz
+%%NLS%%share/locale/de/LC_MESSAGES/pam_pkcs11.mo
+%%NLS%%share/locale/pt_BR/LC_MESSAGES/pam_pkcs11.mo
+%%NLS%%share/locale/ru/LC_MESSAGES/pam_pkcs11.mo
+%%NLS%%share/locale/it/LC_MESSAGES/pam_pkcs11.mo
+%%NLS%%share/locale/tr/LC_MESSAGES/pam_pkcs11.mo
+%%NLS%%share/locale/pl/LC_MESSAGES/pam_pkcs11.mo
+%%NLS%%share/locale/fr/LC_MESSAGES/pam_pkcs11.mo
+%%NLS%%share/locale/nl/LC_MESSAGES/pam_pkcs11.mo

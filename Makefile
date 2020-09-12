@@ -4,24 +4,29 @@
 PORTNAME=	pam_pkcs11
 PORTVERSION=	0.6.11
 CATEGORIES=	security
-GH_ACCOUNT=	OpenSC
-USE_GITHUB=     yes
-GH_TAGNAME=	${PORTNAME}-${PORTVERSION}
 
 MAINTAINER=	khng300@gmail.com
 COMMENT=	PAM module using crypto tokens for auth
 
 LICENSE=	LGPL21
 
-USES=		autoreconf gmake libtool pkgconfig ssl
+RUN_DEPENDS=	bash:shells/bash
 
-OPTIONS_DEFINE=		DEBUG DOCS CURL LDAP NLS PCSC
-OPTIONS_DEFAULT=	NLS PCSC
+USES=		autoreconf gmake libtool pkgconfig shebangfix ssl
+
+USE_GITHUB=	yes
+GH_ACCOUNT=	OpenSC
+GH_TAGNAME=	${PORTNAME}-${PORTVERSION}
 
 GNU_CONFIGURE=	yes
 
 CONFIGURE_ENV=	OPENSSL_CFLAGS="-I${OPENSSLINC}" \
 		OPENSSL_LIBS="-L${OPENSSLLIB} -lcrypto"
+
+SHEBANG_FILES=	tools/pkcs11_make_hash_link
+
+OPTIONS_DEFINE=		CURL DEBUG DOCS LDAP NLS PCSC
+OPTIONS_DEFAULT=	PCSC
 
 CURL_LIB_DEPENDS=	libcurl.so:ftp/curl
 CURL_CONFIGURE_WITH=	curl
@@ -35,14 +40,6 @@ PCSC_CONFIGURE_WITH=	pcsclite
 
 NLS_CONFIGURE_ENABLE=	nls
 NLS_USES=	gettext
-NLS_PLIST_FILES=share/locale/de/LC_MESSAGES/pam_pkcs11.mo \
-		share/locale/pt_BR/LC_MESSAGES/pam_pkcs11.mo \
-		share/locale/ru/LC_MESSAGES/pam_pkcs11.mo \
-		share/locale/it/LC_MESSAGES/pam_pkcs11.mo \
-		share/locale/tr/LC_MESSAGES/pam_pkcs11.mo \
-		share/locale/pl/LC_MESSAGES/pam_pkcs11.mo \
-		share/locale/fr/LC_MESSAGES/pam_pkcs11.mo \
-		share/locale/nl/LC_MESSAGES/pam_pkcs11.mo
 
 DOCS_CONFIGURE_ENABLE=	doc
 
@@ -67,7 +64,6 @@ CONFIGURE_ARGS+=--without-xsl-stylesheetsdir
 .endif
 
 pre-configure:
-	echo ${WRKDIR}
-	@(cd ${WRKDIR}/pam_pkcs11-pam_pkcs11-${PORTVERSION} && ./bootstrap)
+	@(cd ${WRKSRC} && ./bootstrap)
 
 .include <bsd.port.mk>
