@@ -12,7 +12,7 @@ LICENSE=	LGPL21
 
 RUN_DEPENDS=	bash:shells/bash
 
-USES=		autoreconf gmake libtool pkgconfig shebangfix ssl
+USES=		autoreconf gmake libtool pkgconfig shebangfix
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	OpenSC
@@ -28,8 +28,8 @@ SHEBANG_FILES=	tools/pkcs11_make_hash_link
 
 SUB_FILES=	pkg-message
 
-OPTIONS_DEFINE=		CURL DEBUG DOCS LDAP NLS PCSC
-OPTIONS_DEFAULT=	PCSC
+OPTIONS_DEFINE=		CURL DEBUG DOCS LDAP NLS NSS PCSC SSL
+OPTIONS_DEFAULT=	PCSC SSL
 OPTIONS_SUB=		yes
 
 CURL_LIB_DEPENDS=	libcurl.so:ftp/curl
@@ -38,9 +38,18 @@ CURL_CONFIGURE_WITH=	curl
 LDAP_USE=		OPENLDAP=yes
 LDAP_CONFIGURE_WITH=	ldap
 
+# Users can only choose either NSS or SSL
+NSS_DESC=		Enable Mozilla's NSS support
+NSS_CONFIGURE_WITH=	nss
+NSS_LIB_DEPENDS=	libnss3.so:security/nss \
+			libnspr4.so:devel/nspr
+NSS_PREVENTS=		SSL
+
 PCSC_DESC=		Enable PC/SC support
 PCSC_LIB_DEPENDS=	libpcsclite.so:devel/pcsc-lite
 PCSC_CONFIGURE_WITH=	pcsclite
+
+SSL_USES=		ssl
 
 NLS_CONFIGURE_ENABLE=	nls
 NLS_USES=	gettext
